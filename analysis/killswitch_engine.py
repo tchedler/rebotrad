@@ -676,10 +676,10 @@ class KillSwitchEngine:
         return {
             "id":        4,
             "name":      "OUT_OF_SESSION",
-            "active":    False,
-            "blocking":  False,   # KS4 desactive temporairement
+            "active":    active,
+            "blocking":  True,
             "reason":    (
-                "Hors Killzone ICT — timing sous-optimal" if active
+                "Hors Killzone ICT — timing interdit (Asiatique/Tokyo)" if active
                 else "Dans Killzone ICT — OK"
             ),
             "value":     in_killzone,

@@ -49,6 +49,8 @@ import time
 from datetime import datetime, timezone, date
 from typing import Optional
 
+import MetaTrader5 as mt5
+
 from config.constants import Trading, Gateway, Risk, CB, KS, Score
 from execution.news_manager import NewsManager
 
@@ -619,7 +621,6 @@ class Supervisor:
         ouvertes du bot.
         """
         try:
-            import MetaTrader5 as mt5
             positions = mt5.positions_get()
             if not positions:
                 return
@@ -750,21 +751,23 @@ class Supervisor:
 
     def _check_daily_reset(self) -> None:
         """
-        Vérifie si un nouveau jour a commencé.
+        Vérifie si un nouveau jour a commencé (UTC).
         Déclenche `_daily_init()` si nécessaire.
         """
-        today = date.today()
+        today_utc = datetime.now(timezone.utc).date()
+        
+        # Déclenchement si changement de jour
+        should_reset = False
         with self._lock:
-            if self._current_day != today:
-                pass  # reset à effectuer
-            else:
-                return
-
-        logger.info(
-            f"Supervisor — Nouveau jour détecté : {today} | "
-            f"Reset journalier en cours"
-        )
-        self._daily_init()
+            if self._current_day != today_utc:
+                should_reset = True
+        
+        if should_reset:
+            logger.info(
+                f"Supervisor — Nouveau jour détecté (UTC) : {today_utc} | "
+                f"Lancement du reset journalier..."
+            )
+            self._daily_init()
 
     # ══════════════════════════════════════════════════════════
     # SESSIONS ICT

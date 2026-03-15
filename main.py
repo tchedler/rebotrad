@@ -205,12 +205,12 @@ def get_active_pairs() -> list:
 
 def build_bot() -> tuple:    
     # Vérification cohérence imports AVANT instanciation
-    #from tools.check_imports import check_all
-    #if not check_all():
-    #    raise RuntimeError(
-    #        "Imports incohérents — lancer "
-    #        "python tools/check_imports.py pour détails"
-    #    )
+    from tools.check_imports import check_all
+    if not check_all():
+        raise RuntimeError(
+            "Imports incohérents — lancer "
+            "python tools/check_imports.py pour détails"
+        )
     """
     Instancie et câble tous les modules KB5.
     Retourne (supervisor, dashboard) prêts à démarrer.
@@ -526,7 +526,6 @@ def main() -> int:
         # ── Instanciation ───────────────────────────────────
         supervisor, dashboard = build_bot()
 
-        # ── Dashboard thread ────────────────────────────────
                 # ── Vérification Supervisor prêt ─────────────────────
         if not supervisor.is_ready():
             logger.critical(
