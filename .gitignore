@@ -1,0 +1,27 @@
+# Sentinel Pro — fichiers exclus du dépôt git
+
+# Credentials — CRITIQUE
+.env
+*.env
+
+# Données et backups
+backups/
+data/
+logs/
+sentinel_kb5.txt
+user_settings.json
+market_state.pkl
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
